@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
-""" a python module to returns 10 random numbers using async comprehension"""
-from typing import List
-async_generator = __import__('0-async_generator').async_generator
+"""a python module to measure the execution time"""
+import time
+import asyncio
+async_comprehension = __import__('1-async_comprehension').async_comprehension
 
 
-async def async_comprehension() -> List[float]:
+async def measure_runtime() -> float:
     """
-    async_comprehension- function to return 10 random numbers
+    measure_runtime - function execute async_com 4 times
     Arguments:
-        no arguments
+        nothing
     Returns:
-        10 random numbers
+        the total exection time required to complete the task
     """
-    rslt = [i async for i in async_generator()]
-    return rslt
+    t_start = time.perf_counter()
+    task = [async_comprehension() for i in range(4)]
+    await asyncio.gather(*task)
+    t_end = time.perf_counter()
+    return (t_end - t_start)
